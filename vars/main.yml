@@ -1,2 +1,6 @@
 ---
-# vars file for ansible-role-example
+# vars file for ansible-role-gitreceive
+
+# Copied from the gitrecieve script.
+gitreceive_generate_fingerprint: "awk '{print $2}' | base64 -d | md5sum | awk '{print $1}' | sed -e 's/../:&/2g'"
+gitrecive_key_options: 'command="GITUSER=git /usr/local/bin/gitreceive run %s %s",no-agent-forwarding,no-pty,no-user-rc,no-X11-forwarding,no-port-forwarding'

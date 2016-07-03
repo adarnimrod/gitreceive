@@ -1,2 +1,7 @@
 ---
-# defaults file for ansible-role-example
+# defaults file for ansible-role-gitreceive
+
+gitreceive_public_keys:
+#    - '{{ lookup("file", "id_rsa.pub" ) }}'
+
+gitreceive_receiver_script: # The contents of the receiver script.

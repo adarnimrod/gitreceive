@@ -1,5 +1,43 @@
 ---
-- hosts: all
+- hosts: ansible-role-gitreceive-openbsd
   gather_facts: false
-  roles:
-    - role: ansible-role-example
+  roles: [ansible-role-openbsd-bootstrap]
+
+- hosts: all
+  vars:
+      gitreceive_public_keys:
+          - '{{ lookup("file", "id_rsa.pub") }}'
+      gitreceive_receiver_script: '{{ lookup("file", "files/receiver.sh") }}'
+  roles: [ansible-role-gitreceive]
+  post_tasks:
+      - name: Create .ssh directory
+        file:
+            path: /root/.ssh
+            owner: root
+            group: 0
+            mode: 0o0700
+            state: directory
+
+      - name: Copy SSH keypair
+        with_items:
+            - id_rsa
+            - id_rsa.pub
+        copy:
+            src: '{{ item }}'
+            dest: '/root/.ssh/{{ item }}'
+            owner: root
+            group: 0
+            mode: 0o0400
+
+      - name: Add localhost host keys to known hosts
+        shell: ssh-keyscan localhost > /root/.ssh/known_hosts
+        args:
+            creates: /root/.ssh/known_hosts
+
+      - name: Add localhost as a git remote
+        command: git remote add test git@localhost:test
+        args:
+            chdir: /root/gitreceive
+        register: gitreceive_add_remote
+        changed_when: gitreceive_add_remote.rc == 0
+        failed_when: gitreceive_add_remote.rc != 0 and not 'already exists' in gitreceive_add_remote.stderr

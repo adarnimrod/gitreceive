@@ -1,9 +1,9 @@
-Example
-#######
+gitreceive
+##########
 
-An (empty) example Ansible role complete with working tests out of the box. For
-more information read the `blog post
-<https://www.shore.co.il/blog/ansible-example-role/>`_.
+An Ansible to install and configure `gitreceive
+<https://github.com/progrium/gitreceive>`_. Take care to have the receiver
+script capture all of stdin (the git archive tarball).
 
 Requirements
 ------------

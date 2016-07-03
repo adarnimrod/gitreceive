@@ -1,7 +1,71 @@
 ---
-# tasks file for ansible-role-example
+# tasks file for ansible-role-gitreceive
 
 - assert:
     that:
-        - ansible_os_family == 'OpenBSD'
-        - ansible_distribution_release == '5.9'
+        - ansible_os_family in ['Debian', 'OpenBSD']
+
+- name: APT install prequisites
+  when: ansible_pkg_mgr == 'apt'
+  with_items:
+      - bash
+      - apt
+      - git
+      - build-essential
+  apt:
+      name: '{{ item }}'
+      state: present
+      update_cache: yes
+      cache_valid_time: 3600
+
+- name: pkg install prerequisites
+  when: ansible_pkg_mgr == 'openbsd_pkg'
+  with_items:
+      - git
+      - bash
+  openbsd_pkg:
+      name: '{{ item }}'
+      state: present
+
+- name: Symlink /bin/bash -> /usr/local/bin/bash for OpenBSD
+  when: ansible_os_family == 'OpenBSD'
+  file:
+      path: /bin/bash
+      src: /usr/local/bin/bash
+      state: link
+
+- name: git fetch
+  git:
+      dest: /root/gitreceive
+      force: yes
+      update: yes
+      repo: https://github.com/progrium/gitreceive
+      version: master
+  register: gitreceive_fetch
+
+- name: Install
+  when: gitreceive_fetch.changed
+  command: /usr/bin/make
+  args:
+      chdir: /root/gitreceive
+
+- name: Init
+  when: gitreceive_fetch.changed
+  command: /usr/local/bin/gitreceive init
+
+- name: Add public keys
+  with_items: '{{ gitreceive_public_keys }}'
+  authorized_key:
+      key: '{{ item }}'
+      key_options: "{{ gitrecive_key_options | format(item.split()[2], lookup('pipe', 'echo ' + item + ' | ' + gitreceive_generate_fingerprint)) }}"
+      user: git
+      state: present
+
+- name: Copy reciever script
+  when: gitreceive_receiver_script is defined
+  template:
+      src: gitreceive_receiver.j2
+      dest: /home/git/receiver
+      owner: git
+      group: git
+      mode: 0o0750
