@@ -1,3 +1,0 @@
-[submodule ".molecule/roles/openbsd-bootstrap"]
-	path = .molecule/roles/openbsd-bootstrap
-	url = https://www.shore.co.il/git/ansible-role-openbsd-bootstrap

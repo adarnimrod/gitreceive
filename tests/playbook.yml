@@ -1,7 +1,7 @@
 ---
 - hosts: ansible-role-gitreceive-openbsd
   gather_facts: false
-  roles: [openbsd-bootstrap]
+  roles: [openbsd_bootstrap]
 
 - hosts: all
   pre_tasks:

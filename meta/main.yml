@@ -8,6 +8,7 @@ galaxy_info:
   - name: OpenBSD
     versions:
     - 5.9
+    - 6.0
   - name: Debian
     versions:
     - jessie
