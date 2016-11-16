@@ -8,6 +8,7 @@
       - name: Create SSH keypair
         become: False
         local_action: command ssh-keygen -t rsa -N '' -f files/id_rsa
+        run_once: True
         args:
             creates: files/id_rsa
   roles:
