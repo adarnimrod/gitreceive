@@ -9,3 +9,5 @@ __pycache__
 .vagrant/
 *.log
 *.retry
+tests/files/id_rsa
+tests/files/id_rsa.pub

@@ -1,5 +1,5 @@
 #!/bin/sh
 set -eu
-mkdir -p /tmp/gitreceive
-tar -xC /tmp/gitreceive -f -
+mkdir -p /var/tmp/gitreceive
+tar -xC /var/tmp/gitreceive -f -
 echo "OK"

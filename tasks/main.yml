@@ -1,10 +1,10 @@
 ---
 # tasks file for ansible-role-gitreceive
-
 - name: Assertions
   assert:
     that:
         - ansible_os_family in ['Debian', 'OpenBSD']
+        - gitreceive_public_keys is iterable
 
 - name: APT install prequisites
   when: ansible_pkg_mgr == 'apt'
@@ -46,13 +46,15 @@
 
 - name: Install
   when: gitreceive_fetch.changed
-  command: /usr/bin/make
+  tags: ['skip_ansible_lint']
+  command: make
   args:
       chdir: /root/gitreceive
 
 - name: Init
+  tags: ['skip_ansible_lint']
   when: gitreceive_fetch.changed
-  command: /usr/local/bin/gitreceive init
+  command: gitreceive init
 
 - name: Add public keys
   with_items: '{{ gitreceive_public_keys }}'
@@ -64,8 +66,8 @@
 
 - name: Copy reciever script
   when: gitreceive_receiver_script is defined
-  template:
-      src: gitreceive_receiver.j2
+  copy:
+      content: '{{ gitreceive_receiver_script }}'
       dest: /home/git/receiver
       owner: git
       group: git
