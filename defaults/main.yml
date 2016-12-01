@@ -1,5 +1,5 @@
 ---
-# defaults file for ansible-role-gitreceive
+# defaults file for gitreceive
 
 gitreceive_public_keys:
 #    - '{{ lookup("file", "id_rsa.pub" ) }}'

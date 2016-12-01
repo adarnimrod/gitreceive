@@ -1,5 +1,5 @@
 ---
-# vars file for ansible-role-gitreceive
+# vars file for gitreceive
 
 # Copied from the gitrecieve script.
 gitreceive_generate_fingerprint: "awk '{print $2}' | base64 -d | md5sum | awk '{print $1}' | sed -e 's/../:&/2g'"

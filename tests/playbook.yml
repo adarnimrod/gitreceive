@@ -1,7 +1,11 @@
 ---
-- hosts: ansible-role-gitreceive-openbsd
+- hosts: gitreceive-openbsd
   gather_facts: false
-  roles: [openbsd_bootstrap]
+  roles: [adarnimrod.openbsd-bootstrap]
+
+- hosts: gitreceive-xenial
+  gather_facts: false
+  roles: [adarnimrod.debian-bootstrap]
 
 - hosts: all
   pre_tasks:
@@ -11,8 +15,18 @@
         run_once: True
         args:
             creates: files/id_rsa
+
+      - name: Install SSH server
+        apt:
+            name: openssh-server
+            state: present
+
+      - name: Start SSH service
+        service:
+            name: ssh
+            state: started
   roles:
-      - role: ansible-role-gitreceive
+      - role: gitreceive
         gitreceive_public_keys: ['{{ lookup("file", "id_rsa.pub") }}']
         gitreceive_receiver_script: '{{ lookup("file", "files/receiver.sh") }}'
   post_tasks:

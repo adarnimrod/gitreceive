@@ -1,5 +1,5 @@
 ---
-# tasks file for ansible-role-gitreceive
+# tasks file for gitreceive
 - name: Assertions
   assert:
     that:
