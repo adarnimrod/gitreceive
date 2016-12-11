@@ -29,6 +29,7 @@
             state: started
 
 - hosts: all
+  strategy: free
   roles:
       - role: gitreceive
         gitreceive_public_keys: ['{{ lookup("file", "id_rsa.pub") }}']
