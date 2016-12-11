@@ -8,7 +8,7 @@
   roles: [adarnimrod.debian-bootstrap]
 
 - hosts: all
-  pre_tasks:
+  tasks:
       - name: Create SSH keypair
         become: False
         local_action: command ssh-keygen -t rsa -N '' -f files/id_rsa
@@ -27,6 +27,8 @@
         service:
             name: ssh
             state: started
+
+- hosts: all
   roles:
       - role: gitreceive
         gitreceive_public_keys: ['{{ lookup("file", "id_rsa.pub") }}']
