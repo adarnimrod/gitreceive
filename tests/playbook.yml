@@ -59,9 +59,17 @@
         args:
             creates: /root/.ssh/known_hosts
 
+      - name: Clone gitreceive test repo
+        git:
+            dest: /root/gitreceive-test
+            force: yes
+            update: yes
+            repo: https://www.shore.co.il/git/gitreceive-test
+            version: master
+
       - name: Add localhost as a git remote
         blockinfile:
-            dest: /root/gitreceive/.git/config
+            dest: /root/gitreceive-test/.git/config
             block: |
                 [remote "test"]
                     url = git@localhost:test
