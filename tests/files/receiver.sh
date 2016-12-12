@@ -36,4 +36,7 @@ then
     echo '----> Running receiver ...'
     ./receiver
 fi
+echo '----> Cleanup ...'
+cd -
+rm -rf /var/tmp/gitreceive
 echo '----> OK.'

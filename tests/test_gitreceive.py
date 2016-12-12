@@ -10,7 +10,7 @@ def test_gitreceive(Command, Sudo):
     assert push.rc == 0
     for message in ['----> Unpacking ...', '----> Fetching submodules ...',
                     '----> Running receiver ...', 'Dummy receiver script',
-                    '----> OK.']:
+                    '----> Cleanup ...', '----> OK.']:
         assert message in push.stderr
     with Sudo():
         second_push = Command('git -C /root/gitreceive-test push test master')
