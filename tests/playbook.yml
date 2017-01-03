@@ -1,11 +1,11 @@
 ---
 - hosts: gitreceive-openbsd
   gather_facts: false
-  roles: [adarnimrod.openbsd-bootstrap]
+  roles: [openbsd-bootstrap]
 
 - hosts: gitreceive-xenial
   gather_facts: false
-  roles: [adarnimrod.debian-bootstrap]
+  roles: [debian-bootstrap]
 
 - hosts: all
   tasks:
@@ -29,7 +29,6 @@
             state: started
 
 - hosts: all
-  strategy: free
   roles:
       - role: gitreceive
         gitreceive_public_keys: ['{{ lookup("file", "id_rsa.pub") }}']
