@@ -1,19 +1,21 @@
 ---
 language: python
-python: "2.7"
+python: ["2.7", "3.4"]
 dist: trusty
 sudo: True
 group: beta
 services: [docker]
 env:
-    - platform: openbsd
+    - platform: openbsd60
       driver: vagrant
-    - platform: xenial
-      driver: vagrant
-    - platform: jessie
-      driver: vagrant
-    - platform: trusty
-      driver: vagrant
+    - &openbsd59 platform=openbsd59 driver=vagrant
+    - driver: docker
+      platform: all
+matrix:
+    fast_finish: True
+    allow_failures:
+        - python: "3.4"
+        - env: *openbsd59
 cache:
   - pip
   - directories:

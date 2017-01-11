@@ -1,5 +1,5 @@
 ---
-- hosts: gitreceive-openbsd
+- hosts: gitreceive-openbsd*
   gather_facts: false
   roles: [openbsd-bootstrap]
 
