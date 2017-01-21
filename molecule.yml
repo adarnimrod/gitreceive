@@ -24,10 +24,12 @@ vagrant:
     box: ubuntu/xenial32
   - name: trusty
     box: ubuntu/trusty32
+  - name: precise
+    box: hashicorp/precise32
   - name: jessie
-    box: debian/jessie32
+    box: deb/jessie-i386
   - name: wheezy
-    box: debian/wheezy32
+    box: bmorg/debian-wheezy-i386
   instances:
   - name: gitreceive
     options:
@@ -62,6 +64,12 @@ docker:
     environment:
         DEBIAN_FRONTEND: noninteractive
         container: docker
+  - name: gitreceive-precise
+    image: ubuntu
+    image_version: precise
+    environment:
+        DEBIAN_FRONTEND: noninteractive
+        container: docker
   - name: gitreceive-jessie
     image: debian
     image_version: jessie
@@ -77,7 +85,6 @@ docker:
   - name: gitreceive-wheezy
     image: debian
     image_version: wheezy
-    command: /sbin/init
     environment:
         DEBIAN_FRONTEND: noninteractive
         container: docker
