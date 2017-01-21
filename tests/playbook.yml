@@ -22,6 +22,15 @@
             name: openssh-server
             state: present
 
+      - name: Create sshd run directory
+        when: ansible_os_family == 'Debian'
+        file:
+            path: /var/run/sshd
+            owner: root
+            group: root
+            mode: 0o0755
+            state: directory
+
       - name: Start SSH service
         when: ansible_pkg_mgr == 'apt'
         service:
