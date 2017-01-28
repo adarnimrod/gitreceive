@@ -4,7 +4,7 @@
 - name: Assertions
   assert:
     that:
-        - ansible_os_family in ['Debian', 'OpenBSD']
+        - ansible_os_family in ['OpenBSD', 'Debian']
         - gitreceive_public_keys is iterable
 
 - name: APT install prequisites
