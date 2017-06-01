@@ -46,11 +46,9 @@
   register: gitreceive_fetch
 
 - name: Install
-  when: gitreceive_fetch.changed
-  tags: ['skip_ansible_lint']
-  command: make
-  args:
+  make:
       chdir: /root/gitreceive
+      target: install
 
 - name: Init
   tags: ['skip_ansible_lint']
