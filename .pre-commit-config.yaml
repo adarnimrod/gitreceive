@@ -22,6 +22,7 @@
     hooks:
     -   id: piprot
 -   repo: https://github.com/adarnimrod/shell-pre-commit
-    sha: v0.1.0
+    sha: v0.5.4
     hooks:
     -   id: shell-lint
+    -   id: shellcheck
