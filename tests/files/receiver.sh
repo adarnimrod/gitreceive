@@ -22,6 +22,15 @@ fetch_submodules () {
         done
 }
 
+# shellcheck disable=SC2034
+repository="$1"
+# shellcheck disable=SC2034
+revision="$2"
+# shellcheck disable=SC2034
+username="$3"
+# shellcheck disable=SC2034
+fingerprint="$4"
+
 mkdir -p /var/tmp/gitreceive
 (
 cd /var/tmp/gitreceive
