@@ -9,5 +9,6 @@ __pycache__
 .vagrant/
 *.log
 *.retry
+.tox
 tests/files/id_rsa
 tests/files/id_rsa.pub
