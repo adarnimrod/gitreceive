@@ -13,16 +13,17 @@ fetch_submodules () {
 
     # We read the submodules from .gitmodules
     git config -f .gitmodules --get-regexp '^submodule\..*\.path$' |
-        while read path_key path
+        while read -r path_key path
         do
-            rm -fr $path
-            url_key=`echo $path_key | sed 's/\.path/.url/'`
-            url=`git config -f .gitmodules --get "$url_key"`
-            git submodule add $url $path
+            rm -fr "$path"
+            url_key="$(echo "$path_key" | sed 's/\.path/.url/')"
+            url="$(git config -f .gitmodules --get "$url_key")"
+            git submodule add "$url" "$path"
         done
 }
 
 mkdir -p /var/tmp/gitreceive
+(
 cd /var/tmp/gitreceive
 echo '----> Unpacking ...'
 tar -xf -
@@ -37,6 +38,6 @@ then
     ./receiver
 fi
 echo '----> Cleanup ...'
-cd -
+)
 rm -rf /var/tmp/gitreceive
 echo '----> OK.'
