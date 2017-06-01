@@ -21,6 +21,8 @@ cache:
   - pip
   - directories:
       - $HOME/.pre-commit
+      - $HOME/.cabal
+      - $HOME/.ghc
 
 install:
   - sudo apt-get update
@@ -44,6 +46,13 @@ matrix:
     include:
         - env:
             TOXENV: pre-commit
+            PATH: $PATH:$HOME/.cabal/bin
+          addons:
+            apt:
+              packages:
+                - cabal-install
+                - ghc
           install:
+              - cabal update && cabal install shellcheck
               - *pip_install
           sudo: False
